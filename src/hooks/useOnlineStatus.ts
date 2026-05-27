@@ -1,13 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function useOnlineStatus() {
     const [online, setOnline] = useState(false);
-    window.addEventListener("offline", () => {
-        setOnline(false);
-    });
-    window.addEventListener("online", () => {
-        setOnline(true);
-    });
+    useEffect(() => {
+        const abortController = new AbortController();
+        window.addEventListener(
+            "offline",
+            () => {
+                setOnline(false);
+            },
+            { signal: abortController.signal },
+        );
+        window.addEventListener(
+            "online",
+            () => {
+                setOnline(true);
+            },
+            { signal: abortController.signal },
+        );
+        return () => {
+            abortController.abort();
+        };
+    }, []);
     return online;
 }
 
