@@ -1,13 +1,10 @@
+import { useShortcut } from "./hooks/useShortcut";
 
 function App() {
-
-  return (
-    <>
-      
-
-      
-    </>
-  )
+    useShortcut({ ctrl: true, shift: true, key: "A" }, () =>
+        console.log("rubn"),
+    );
+    return <></>;
 }
 
-export default App
+export default App;
