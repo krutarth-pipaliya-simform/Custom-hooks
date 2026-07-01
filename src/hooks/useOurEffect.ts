@@ -1,8 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type DependencyList } from "react";
 
 // Create a custom React hook that behaves like useEffect, but skips execution on the initial render.
 
-export const useOurEffect = (callback: () => void | (() => void), dependency?: Array<unknown>) => {
+export const useOurEffect = (
+    callback: () => void | (() => void),
+    dependency?: DependencyList,
+) => {
     const isFirstRender = useRef<boolean>(true);
 
     useEffect(() => {
@@ -13,5 +16,5 @@ export const useOurEffect = (callback: () => void | (() => void), dependency?: A
         isFirstRender.current = false;
 
         return res;
-    }, [callback, dependency]);
+    }, dependency);
 };
